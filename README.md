@@ -42,8 +42,6 @@ You need to download `config.json` and `Downloader.py` and run `Downloader.py` w
 
 `config.json` is the configuration file for this program
 
----
-
 ```json
 {
     "WatchList": {
