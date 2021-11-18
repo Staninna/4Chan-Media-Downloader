@@ -44,27 +44,46 @@ You need to download `config.json` and `Downloader.py` and run `Downloader.py` w
 
 ---
 
-### Options
+```json
+{
+    "WatchList": {
+        "File": "watchlist.txt",
+        "IntervalSeconds": 150
+    },
+    "Download": {
+        "Path": "Downloads"
+    },
+    "KeepAlive": {
+        "Enabled": false,
+        "IntervalSeconds": 300
+    }
+}
+```
+
+---
+
+### WatchList
+
+| Options         | Function                                           | Default       |
+| :-------------- | :------------------------------------------------- | :------------ |
+| File            | Name of the watchlist file                         | watchlist.txt |
+| IntervalSeconds | Amount of seconds between updates of the watchlist | 150           |
 
 <br>
 
-Watchlist
-| Options | Function | Default |
-| :- | :- | :- |
-| File | Name of the watchlist file | watchlist.txt |
-| IntervalSeconds | Amount of seconds between updates of the watchlist | 150 |
+### Download
+
+| Option | Function                         | Default   |
+| :----- | :------------------------------- | :-------- |
+| Path   | Directory where files get stored | Downloads |
+
 <br>
 
-Download
-| Option | Function | Default |
-| :- | :- | :- |
-| Path | Directory where files get stored | Downloads |
-<br>
+### KeepAlive
 
-KeepAlive
-| Option | Function | Default |
-| :- | :- | :- |
-| Enabled | Directory where files get stored | True |
-| IntervalSeconds | Interval between checks if there are new files uploaded on threads | 300 |
+| Option          | Function                                                           | Default |
+| :-------------- | :----------------------------------------------------------------- | :------ |
+| Enabled         | Directory where files get stored                                   | True    |
+| IntervalSeconds | Interval between checks if there are new files uploaded on threads | 300     |
 
 ---
