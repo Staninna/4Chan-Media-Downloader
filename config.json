@@ -1,0 +1,13 @@
+{
+    "WatchList": {
+        "File": "watchlist.txt",
+        "IntervalSeconds": 150
+    },
+    "Download": {
+        "Path": "Downloads"
+    },
+    "KeepAlive": {
+        "Enabled": false,
+        "IntervalSeconds": 300
+    }
+}
