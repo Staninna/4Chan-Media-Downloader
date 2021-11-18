@@ -1,24 +1,29 @@
 # Imports
-import os
-import re
-import json
-import time
-import logging
-import datetime
-import urllib.request
+from json import load
+from time import sleep
 from threading import Thread
+from datetime import datetime
+from os import getcwd, makedirs
+from os.path import isdir, isfile
+from logging import log, basicConfig, INFO
+from re import compile as recompile, escape, findall
+from urllib.request import urlopen, Request, urlretrieve, error
 
 
 # Functions
 def log(level, 
         message):
     print(message)
-    logging.log(level, message)
+    log(level, message)
 
 def read_config(config_file):
+    # Open the config file
     file = open(config_file)
-    data, config = json.load(file), []
+    data, config = load(file), []
     file.close()
+
+
+    # Loops over values in the config file
     x_index = -1
     for x in data.values():
         x_index += 1
@@ -30,28 +35,48 @@ def read_config(config_file):
             name.append(value)
             item.append(name)
         config.append(item)
+    
+
+    # Returns all the found configuration 
     return config
 
 def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watch_list_file):
+    # Setting up some variables
     _, _, _, board, _, thread = url.split('/')
-    path = f'{os.getcwd()}/{download_path}/{board}/{thread}'
-    if not os.path.isdir(path):
-        os.makedirs(path)
-    
     _404 = False
     known_urls = []
+    
+
+    # Makes path for thread
+    path = f'{getcwd()}/{download_path}/{board}/{thread}'
+    if not isdir(path):
+        makedirs(path)
+    
+
+    # Main download loop
     while True:
-        try:
-            html = urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'}))
-        except urllib.error.HTTPError:
-            log(logging.INFO, 'page 404\'d')
-            _404 = True
+        
+        
+        # Tries to download the html file stops after 10 retries
+        for i in range(10 + 1):
+            try:
+                html = urlopen(Request(url, headers={'User-Agent': 'Mozilla/5.0'}))
+                break
+            except error.HTTPError:
+                log(INFO, 'page 404\'d')
+                if i == 10:
+                    _404 = True
+                    break
         html_text = html.read().decode(html.info().get_param('charset'))
 
-        pattern = re.compile(r'[\/]{2}.+?(?=\/' + re.escape(board) + r'\/)[^"|s]*')
-        matches = re.findall(pattern, html_text)
-
+        
+        # Setting some other variables
+        pattern = recompile(r'[\/]{2}.+?(?=\/' + escape(board) + r'\/)[^"|s]*')
+        matches = findall(pattern, html_text)
         urls, file_extentions = [], ['jpg', 'png', 'webm', 'gif']
+        
+        
+        # Finding file urls and storing them in a list
         for match in matches:
             try:
                 if match not in urls:
@@ -59,17 +84,20 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
                         urls.append(match[:0] + 'https:' + match[0:])
             except IndexError:
                 pass
+        
 
+        # Download file if url not in known urls
         for file_url in urls:
             if file_url not in known_urls:
                 known_urls.append(file_url)
-                if not os.path.isfile(f'{path}/{file_url.split("/")[-1]}'):
-                    urllib.request.urlretrieve(file_url, f'{path}/{file_url.split("/")[-1]}')
-                    log(logging.INFO, f'{path}/{file_url.split("/")[-1]}')
+                if not isfile(f'{path}/{file_url.split("/")[-1]}'):
+                    urlretrieve(file_url, f'{path}/{file_url.split("/")[-1]}')
+                    log(INFO, f'{path}/{file_url.split("/")[-1]}')
                 else:
-                    log(logging.INFO, 'file exists')
+                    log(INFO, 'file exists')
                 
 
+        # Stops downloading if thread is dead or keep alive is turned off
         if not keep_alive_enabled or _404:
             temp_file = open(watch_list_file, 'r')
             lines = temp_file.readlines()
@@ -81,17 +109,24 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
                     new_file.write(line)
             new_file.close()
             break
+
+
+        # Waiting for new files in thread
         else:
-            log(logging.INFO, 'waiting for new files in thread')
-            time.sleep(keep_alive_interval)
+            log(INFO, 'waiting for new files in thread')
+            sleep(keep_alive_interval)
+
 
 # Making Log File
-date = datetime.datetime.now()
-logging.basicConfig(filename=f"logs/{date.day}-{date.month}-{date.year}_{date.hour}-{date.minute}-{date.second}.log", # Filename https://stackoverflow.com/questions/9135936/how-do-you-add-datetime-to-a-logfile-name
-                    level=logging.INFO, #On what level do you wanna log
+if not isdir("logs/"):
+    makedirs("logs")
+date = datetime.now()
+basicConfig(filename=f"logs/{date.day}-{date.month}-{date.year}_{date.hour}-{date.minute}-{date.second}.log", # Filename https://stackoverflow.com/questions/9135936/how-do-you-add-datetime-to-a-logfile-name
+                    level=INFO, #On what level do you wanna log
                     format="%(asctime)s %(levelname)s: %(message)s", # logging format https://docs.python.org/3/howto/logging.html#changing-the-format-of-displayed-messages
                     datefmt='%d/%m/%Y %H:%M:%S' # Time/Date format https://docs.python.org/3/howto/logging.html#displaying-the-date-time-in-messages
                     )
+
 
 # Reading configuration file
 config = read_config('config.json')
@@ -107,7 +142,7 @@ known_urls = []
 
 
 # Making watchlist if not present
-if not os.path.isfile(watch_list_file):
+if not isfile(watch_list_file):
     open(watch_list_file, 'w').close()
 
 
@@ -115,10 +150,16 @@ if not os.path.isfile(watch_list_file):
 while True:
     opened = True
     tries = 0
+
+
+    # Reads watchlist
     while opened:
         try:
             urls = []
             with open(watch_list_file, 'r') as watch_list:
+                
+                
+                # Formating urls
                 raw_urls = watch_list.readlines()
                 for url in raw_urls:
                     url_parts = url.split('/')
@@ -129,17 +170,25 @@ while True:
                             url += part + '/'
                     urls.append(url[:-1].strip('\n'))
             opened = False
+        
+        
+        # Logs error after trying to open watchlist
         except FileNotFoundError as e:
             tries += 1
             if tries == 666:
-                log(logging.INFO, e)
+                log(INFO, e)
                 input('Press a key to close...')
                 exit(0)
+    
+
+    # Loops over urls if url not known starts a download thread for it
     for url in urls:
         if url not in known_urls:
             known_urls.append(url)
             thread = Thread(target=downloader, args=(url, download_path, keep_alive_enabled, keep_alive_interval, watch_list_file), daemon=True)
             thread.start()
 
-    log(logging.INFO, 'waiting for to watchlist update')
-    time.sleep(watch_list_interval_seconds)
+
+    # Waiting for watchlist update interval to update watchlist
+    log(INFO, 'waiting for to watchlist update')
+    sleep(watch_list_interval_seconds)
