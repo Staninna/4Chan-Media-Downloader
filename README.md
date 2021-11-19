@@ -23,7 +23,7 @@ It's a great media scraper for [4chan.org](https://4chan.org/) using multiple th
 
 You create a watchlist file with the urls for the 4chan threads you want to monitor, and the program downloads all the media files of those active threads
 
-## Setting it up
+## Installing
 
 You need to download the latest version from [this link](https://github.com/Staninna/4Chan-Media-Downloader/releases/latest), extract the file and run `Downloader.exe`, Windows will complain about viruses, but it is totally fine, if you really do not trust the program, use `Downloader.py` instead
 
