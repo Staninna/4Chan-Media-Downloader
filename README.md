@@ -17,15 +17,15 @@
 
 ## What is it?
 
-It's a great image/video scraper for [4chan](https://4chan.org/) using multiple threads
+It's a great media scraper for [4chan.org](https://4chan.org/) using multiple threads
 
 ## How does it work?
 
-You make a watchlist file with the urls for the 4chan threads you want to monitor, and the program downloads all the media files of those active threads
+You create a watchlist file with the urls for the 4chan threads you want to monitor, and the program downloads all the media files of those active threads
 
 ## Setting it up
 
-You need to download `config.json` and `Downloader.py` and run `Downloader.py` with python 3.x.x obviously. It will make a watchlist file, paste your 4chan thread urls into it and, leave it alone the program will download all the media files till the thread dies
+You need to download the latest version from [this link](https://github.com/Staninna/4Chan-Media-Downloader/releases/latest), extract the file and run `Downloader.exe`, Windows will complain about viruses, but it is totally fine, if you really do not trust the program, use `Downloader.py` instead
 
 ## Configuring
 
