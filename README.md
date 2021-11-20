@@ -1,13 +1,13 @@
 # 4Chan-Media-Downloader
 
 <div align="center">
-    <img width="80%" src="https://i.imgur.com/ifMGs02.png">      
+    <img width="80%" src="https://i.imgur.com/9fxunds.png">      
 </div>
 
 <br>
 
 <div align="center">
-    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/Staninna/4Chan-Media-Downloader">
+    <img alt="GitHub code size" src="https://img.shields.io/github/languages/code-size/staninna/4Chan-Media-Downloader">
     <img alt="GitHub Pipenv locked Python version" src="https://img.shields.io/github/pipenv/locked/python-version/Staninna/4Chan-Media-Downloader">
     <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/Staninna/4Chan-Media-Downloader">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Staninna/4Chan-Media-Downloader">
