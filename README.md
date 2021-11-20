@@ -31,6 +31,8 @@ You need to download the latest version from [this link](https://github.com/Stan
 
 `config.json` is the configuration file for this program
 
+### `config.json`
+
 ```json
 {
     "WatchList": {
