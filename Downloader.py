@@ -5,9 +5,10 @@ from threading import Thread
 from datetime import datetime
 from os import getcwd, makedirs
 from os.path import isdir, isfile
+from urllib.error import HttpError
 from logging import log, basicConfig, INFO
 from re import compile as recompile, escape, findall
-from urllib.request import urlopen, Request, urlretrieve, error
+from urllib.request import urlopen, Request, urlretrieve
 
 
 # Functions
@@ -62,7 +63,7 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
             try:
                 html = urlopen(Request(url, headers={'User-Agent': 'Mozilla/5.0'}))
                 break
-            except error.HTTPError:
+            except HTTPError:
                 log(INFO, 'page 404\'d')
                 if i == 10:
                     _404 = True
