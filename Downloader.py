@@ -5,7 +5,7 @@ from threading import Thread
 from datetime import datetime
 from os import getcwd, makedirs
 from os.path import isdir, isfile
-from urllib.error import HttpError
+from urllib.error import HTTPError
 from logging import log, basicConfig, INFO
 from re import compile as recompile, escape, findall
 from urllib.request import urlopen, Request, urlretrieve
