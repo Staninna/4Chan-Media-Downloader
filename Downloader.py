@@ -12,7 +12,7 @@ from urllib.request import urlopen, Request, urlretrieve
 
 
 # Functions
-def log(level, 
+def logging(level, 
         message):
     print(message)
     log(level, message)
@@ -64,7 +64,7 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
                 html = urlopen(Request(url, headers={'User-Agent': 'Mozilla/5.0'}))
                 break
             except HTTPError:
-                log(INFO, 'page 404\'d')
+                logging(INFO, 'page 404\'d')
                 if i == 10:
                     _404 = True
                     break
@@ -93,9 +93,9 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
                 known_urls.append(file_url)
                 if not isfile(f'{path}/{file_url.split("/")[-1]}'):
                     urlretrieve(file_url, f'{path}/{file_url.split("/")[-1]}')
-                    log(INFO, f'{path}/{file_url.split("/")[-1]}')
+                    logging(INFO, f'{path}/{file_url.split("/")[-1]}')
                 else:
-                    log(INFO, 'file exists')
+                    logging(INFO, 'file exists')
                 
 
         # Stops downloading if thread is dead or keep alive is turned off
@@ -114,7 +114,7 @@ def downloader(url, download_path, keep_alive_enabled, keep_alive_interval, watc
 
         # Waiting for new files in thread
         else:
-            log(INFO, 'waiting for new files in thread')
+            logging(INFO, 'waiting for new files in thread')
             sleep(keep_alive_interval)
 
 
@@ -177,7 +177,7 @@ while True:
         except FileNotFoundError as e:
             tries += 1
             if tries == 666:
-                log(INFO, e)
+                logging(INFO, e)
                 input('Press a key to close...')
                 exit(0)
     
@@ -191,5 +191,5 @@ while True:
 
 
     # Waiting for watchlist update interval to update watchlist
-    log(INFO, 'waiting for to watchlist update')
+    logging(INFO, 'waiting for to watchlist update')
     sleep(watch_list_interval_seconds)
