@@ -7,7 +7,7 @@
         "Path": "Downloads"
     },
     "KeepAlive": {
-        "Enabled": false,
+        "Enabled": true,
         "IntervalSeconds": 300
     }
 }
