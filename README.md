@@ -43,7 +43,7 @@ You need to download the latest version from [this link](https://github.com/Stan
         "Path": "Downloads"
     },
     "KeepAlive": {
-        "Enabled": false,
+        "Enabled": true,
         "IntervalSeconds": 300
     }
 }
