@@ -66,5 +66,5 @@ You need to download the latest version from [this link](https://github.com/Stan
 
 | Option          | Function                                                           | Default |
 | :-------------- | :----------------------------------------------------------------- | :------ |
-| Enabled         | Directory where files get stored                                   | True    |
+| Enabled         | Checks if there are new files are uploaded                         | True    |
 | IntervalSeconds | Interval between checks if there are new files uploaded on threads | 300     |
