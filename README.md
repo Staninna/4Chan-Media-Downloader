@@ -1,7 +1,7 @@
 # 4Chan-Media-Downloader
 
 <div align="center">
-    <img width="80%" src="https://i.imgur.com/9fxunds.png">      
+    <img width="80%" src="https://i.imgur.com/9fxunds.png">
 </div>
 
 <br>
@@ -68,3 +68,7 @@ You need to download the latest version from [this link](https://github.com/Stan
 | :-------------- | :----------------------------------------------------------------- | :------ |
 | Enabled         | Checks if there are new files are uploaded                         | True    |
 | IntervalSeconds | Interval between checks if there are new files uploaded on threads | 300     |
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
